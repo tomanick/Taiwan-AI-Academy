@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 import matplotlib.pyplot as plt
@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-# In[2]:
+# In[3]:
 
 
 # 資料在server上的路徑
@@ -43,7 +43,7 @@ order = {
 }
 
 
-# In[3]:
+# In[4]:
 
 
 # 將server路徑餵給os.listdir目錄並命名為dirs
@@ -52,13 +52,13 @@ dirs = os.listdir(path)
 # 執行後可知dirs下'依序'有這些子資料夾，其中train資料夾所在位移值為3
 
 
-# In[4]:
+# In[5]:
 
 
 dirs
 
 
-# In[5]:
+# In[6]:
 
 
 # load train data
@@ -79,59 +79,57 @@ for i in os.listdir(path+'/'+dirs[3]):
         y.append(np.eye(5)[order[i]])
 
 
-# In[6]:
+# In[7]:
 
 
 train_data = np.array(imglist)
 
 
-# In[7]:
+# In[8]:
 
 
 train_data.shape
 
 
-# In[8]:
+# In[9]:
 
 
 y = np.array(y)
 
 
-# In[9]:
+# In[10]:
 
 
 #y_train = y
 
 
-# In[10]:
+# In[11]:
 
 
 os.listdir(path)
 
 
-# In[11]:
+# In[12]:
 
 
 len(os.listdir(path+'/'+dirs[2]))
 
 
-# In[12]:
+# In[13]:
 
 
 from keras.applications.resnet50 import preprocess_input, decode_predictions
 
 
-# In[13]:
+# In[14]:
 
 
 #Split training data into training and validation set.
-#x_train = train_data
-#x_data = train_data.astype('float32') - np.array([123.68, 116.78, 103.94])
 x_data = preprocess_input(train_data)
 x_train, x_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=17, shuffle=True)
 
 
-# In[14]:
+# In[15]:
 
 
 # path+'/'+dirs[3]是train資料夾
@@ -149,22 +147,16 @@ for i in os.listdir(path+'/'+dirs[2]):
         imglist_test.append(img)
 
 
-# In[15]:
+# In[16]:
 
 
 test_data = np.array(imglist_test)
 
 
-# In[16]:
-
-
-test_data.shape
-
-
 # In[17]:
 
 
-#test_data[0]
+test_data.shape
 
 
 # In[18]:
@@ -176,25 +168,13 @@ test_path = os.listdir(path+'/'+dirs[2])
 # In[19]:
 
 
-#test_path
-
-
-# In[20]:
-
-
 test_id = []
 for i in test_path:
     test_1 = i.split('.')
     test_id.append(test_1[0])
 
 
-# In[21]:
-
-
-#test_id
-
-
-# In[22]:
+# In[20]:
 
 
 batch_size = 32
@@ -204,7 +184,7 @@ epochs = 100
 save_dir = os.path.join(os.getcwd(), 'saved_models')
 
 
-# In[23]:
+# In[21]:
 
 
 import time
@@ -215,7 +195,7 @@ from keras.layers import merge, Input
 from keras.models import Model
 
 
-# In[ ]:
+# In[22]:
 
 
 ##model##
@@ -249,13 +229,7 @@ model = Model(inputs=base_model.input, outputs=preds)
 #model.summary()
 
 
-# In[ ]:
-
-
-#model.summary()
-
-
-# In[ ]:
+# In[23]:
 
 
 from keras.preprocessing.image import ImageDataGenerator
@@ -273,7 +247,7 @@ img_gen = ImageDataGenerator(
     cval=0)
 
 
-# In[ ]:
+# In[24]:
 
 
 optimizer = keras.optimizers.Adam(lr=0.00001) 
@@ -305,19 +279,7 @@ model_history = model.fit_generator(img_gen.flow(x_train, y_train,
                     callbacks=[earlystop, checkpoint])
 
 
-# In[ ]:
-
-
-#para = model.get_weights()
-
-
-# In[ ]:
-
-
-#para[0]
-
-
-# In[ ]:
+# In[25]:
 
 
 # loading our save model
@@ -326,32 +288,26 @@ model_best = load_model(model_path)
 print("Loading has finished")
 
 
-# In[ ]:
-
-
-#checkpoint
-
-
-# In[ ]:
+# In[26]:
 
 
 prediction = model_best.predict(test_data).round()
 
 
-# In[ ]:
+# In[27]:
 
 
 pred_1 = np.argmax(prediction, axis=1)
 
 
-# In[ ]:
+# In[28]:
 
 
 submission = pd.DataFrame({'id': test_id, 'class': pred_1}, columns=['id', 'class'])
-submission.to_csv('submission-random-17-100.csv',index=False)
+submission.to_csv('submission.csv',index=False)
 
 
-# In[171]:
+# In[29]:
 
 
 def show_train_history(train_history, train, validation):
@@ -364,14 +320,20 @@ def show_train_history(train_history, train, validation):
     plt.show()
 
 
-# In[172]:
+# In[30]:
 
 
 show_train_history(model_history, 'acc', 'val_acc')
 
 
-# In[173]:
+# In[31]:
 
 
 show_train_history(model_history, 'loss', 'val_loss')
+
+
+# In[1]:
+
+
+get_ipython().system('jupyter nbconvert --to script MidtermResnetTransferLearningCNN_liu.ipynb')
 
