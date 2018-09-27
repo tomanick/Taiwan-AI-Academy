@@ -12,7 +12,7 @@
 
 * 類別編號: 4, `tulip`
 
-![]()
+![](https://github.com/tomanick/Taiwan-AI-Academy/blob/master/pictures/flowers.png)
 
 
 ## 問題
