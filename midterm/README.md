@@ -15,6 +15,8 @@
 ![](https://github.com/tomanick/Taiwan-AI-Academy/blob/master/pictures/flowers.png)
 
 
+![](https://github.com/tomanick/Taiwan-AI-Academy/blob/master/pictures/flowers_2.png)
+
 ## 問題
 請利用深度學習模型進行分類, 我們會以test資料集分類結果的準確率,做為評比標準.
 合格成績需比 Leaderboard 的 baseline 有更高的分類準確率
